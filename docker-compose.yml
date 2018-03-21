@@ -2,7 +2,7 @@ version: '2'
 
 services:
   web:
-    image: 994642778742.dkr.ecr.us-east-1.amazonaws.com/dallasphpbot/nginx:latest
+    image: 994642778742.dkr.ecr.us-east-1.amazonaws.com/tardibot/nginx:latest
     volumes_from:
       - app
     ports:
