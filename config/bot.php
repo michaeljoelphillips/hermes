@@ -6,7 +6,8 @@ return [
     ],
 
     'messages' => [
-        'Hi!' => 'Hello!',
+        'Hi' => 'Hello',
         'Can you hear me\?' => 'Loud and clear!',
+        'Test' => 'I\'m working!',
     ]
 ];
