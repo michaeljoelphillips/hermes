@@ -12,11 +12,19 @@ class ConfigParser
     /** @var array */
     protected $messages;
 
+    /**
+     * @param array
+     */
     public function __construct(array $messages)
     {
         $this->messages = $messages;
     }
 
+    /**
+     * Configure the bot.
+     *
+     * @param BotMan $bot
+     */
     public function configure(BotMan $bot)
     {
         foreach ($this->messages as $hears => $replies) {
@@ -24,6 +32,11 @@ class ConfigParser
         }
     }
 
+    /**
+     * Adds the $reply to the bot.
+     *
+     * @param string $reply
+     */
     private function reply(string $reply)
     {
         return function (BotMan $bot) {
