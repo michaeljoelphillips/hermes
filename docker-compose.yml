@@ -16,4 +16,4 @@ services:
     environment:
       - SLACK_TOKEN
   app:
-    image: ${DOCKER_REPO}:${IMAGE_TAG}
+    image: 994642778742.dkr.ecr.us-east-1.amazonaws.com/tardibot:latest
