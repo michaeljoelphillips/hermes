@@ -15,5 +15,6 @@ services:
       - 9000:9000
     environment:
       - SLACK_TOKEN
+    working_dir: /app
   app:
     image: 994642778742.dkr.ecr.us-east-1.amazonaws.com/tardibot:latest

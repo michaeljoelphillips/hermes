@@ -161,6 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\BotMan\DriverProvider::class,
         App\Providers\BotMan\BotManProvider::class,
+        App\Providers\BotMan\ConfigParserProvider::class,
     ],
 
     /*

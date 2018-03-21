@@ -22,12 +22,6 @@ class BotManController
 
     public function chat()
     {
-        $this->botman->hears('Hi!', function (BotMan $bot) {
-            $bot->reply('Hello!');
-        });
-
-        $botman->hears('Can you hear me\?', function (BotMan $bot) {
-            $bot->reply('Loud and clear!');
-        });
+        $this->botman->listen();
     }
 }
