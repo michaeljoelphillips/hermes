@@ -159,7 +159,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\BotMan\DriverProvider::class,
+        App\Providers\BotMan\BotManProvider::class,
     ],
 
     /*

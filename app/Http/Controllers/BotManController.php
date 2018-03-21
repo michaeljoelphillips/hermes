@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use BotMan\BotMan\BotMan;
+
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class BotManController
 {
-    public function __construct()
+    /** @var BotMan */
+    protected $botman;
+
+    /**
+     * @param BotMan $botman
+     */
+    public function __construct(BotMan $botman)
     {
+        $this->botman = $botman;
     }
 
-    public function chatAction()
+    public function chat()
     {
-        resolve(BotMan::class);
+        $this->botman->hears('Hi!', function (BotMan $bot) {
+            $bot->reply('Hello!');
+        });
+
+        $botman->hears('Can you hear me\?', function (BotMan $bot) {
+            $bot->reply('Loud and clear!');
+        });
     }
 }

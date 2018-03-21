@@ -10,6 +10,4 @@
 |
 */
 
-Route::get('/chat', function ($app) {
-    $app->make(BotMan::class);
-});
+Route::get('/chat', 'BotManController@chat');
