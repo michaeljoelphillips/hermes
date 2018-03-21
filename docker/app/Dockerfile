@@ -10,4 +10,4 @@ FROM alpine:latest
 COPY --from=builder /app /app
 VOLUME /app
 
-RUN chown 1000:33 -R /app/storage/logs /app/storage/framework
+RUN chown 33:33 -R /app/storage/logs /app/storage/framework
