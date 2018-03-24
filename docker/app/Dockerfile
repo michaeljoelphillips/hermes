@@ -8,6 +8,7 @@ RUN cp .env.example .env
 FROM alpine:latest
 
 COPY --from=builder /app /app
-VOLUME /app
 
-RUN chown -R 33:33 -R /app
+RUN chown -R 1000:33 -R /app
+
+VOLUME /app
