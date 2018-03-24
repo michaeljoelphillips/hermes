@@ -2,7 +2,9 @@
 
 return [
     'drivers' => [
-        'slack' => env('SLACK_TOKEN'),
+        'slack' => [
+            'token' => env('SLACK_TOKEN')
+        ]
     ],
 
     'messages' => [

@@ -39,7 +39,7 @@ class ConfigParser
      */
     private function reply(string $reply)
     {
-        return function (BotMan $bot) {
+        return function (BotMan $bot) use ($reply) {
             $bot->reply($reply);
         };
     }

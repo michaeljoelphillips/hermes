@@ -17,7 +17,7 @@ class BotManProvider extends ServiceProvider
         $this->app->singleton(BotMan::class, function ($app) {
             $factory = $app->make(BotManFactory::class);
 
-            return BotManFactory::create(config('bot'));
+            return BotManFactory::create(config('bot')['drivers']);
         });
     }
 
