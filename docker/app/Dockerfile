@@ -10,5 +10,4 @@ FROM alpine:latest
 COPY --from=builder /app /app
 VOLUME /app
 
-RUN chown 33:33 -R /app/storage
-RUN chmod -R 777 /app/storage
+RUN chown -R 33:33 -R /app
