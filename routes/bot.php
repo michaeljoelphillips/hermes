@@ -10,4 +10,8 @@
 |
 */
 
-Route::post('/chat', 'BotManController@chat');
+Route::post('/', 'BotManController@chat');
+
+Route::get('/chat', function () {
+    return view('chat');
+});

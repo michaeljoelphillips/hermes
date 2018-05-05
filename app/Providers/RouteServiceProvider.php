@@ -78,7 +78,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapBotRoutes()
     {
-        Route::prefix('bot')
+        Route::prefix('botman')
             ->namespace($this->namespace)
             ->group(base_path('routes/bot.php'));
     }

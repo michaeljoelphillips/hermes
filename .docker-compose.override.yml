@@ -9,11 +9,17 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
+    logging:
+      driver: json-file
   fpm:
     image: php:7.2-fpm
     volumes_from:
       - app
+    logging:
+      driver: json-file
   app:
     image: alpine:latest
     volumes:
       - ./:/app
+    logging:
+      driver: json-file
