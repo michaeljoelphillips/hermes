@@ -162,6 +162,8 @@ return [
         App\Providers\BotMan\DriverProvider::class,
         App\Providers\BotMan\BotManProvider::class,
         App\Providers\BotMan\ConfigParserProvider::class,
+        App\Providers\GoogleProvider::class,
+        App\Providers\YoutubeProvider::class,
     ],
 
     /*

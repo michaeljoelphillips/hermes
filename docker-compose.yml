@@ -26,6 +26,7 @@ services:
         awslogs-region: us-east-1
         awslogs-stream-prefix: tardibot
     environment:
+      - GOOGLE_ACCESS_TOKEN
       - SLACK_TOKEN
       - APP_KEY
     working_dir: /app
