@@ -23,6 +23,7 @@ class BotManProvider extends ServiceProvider
 
     public function boot(BotMan $bot, ConfigParser $parser)
     {
+        $bot->setcontainer($this->app);
         $parser->configure($bot);
     }
 }

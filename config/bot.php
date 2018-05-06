@@ -14,6 +14,6 @@ return [
     ],
 
     'conversations' => [
-        'Test Conversation' => 'asdf',
+        '^https://open.spotify.com/track.*$' => 'App\BotMan\Conversation\SpotifyUrlConversation@convertUrl'
     ],
 ];

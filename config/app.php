@@ -165,6 +165,7 @@ return [
         App\Providers\GoogleProvider::class,
         App\Providers\YoutubeProvider::class,
         App\Providers\SpotifyProvider::class,
+        App\Providers\BotMan\ConversationProvider::class,
     ],
 
     /*
