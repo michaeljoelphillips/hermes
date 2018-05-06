@@ -52,9 +52,15 @@ class Track
      * @param string $url
      * @return string
      */
-    private function parseUrl(string $url) : string
+    private static function parseUrl(string $url) : string
     {
-        return substr(strrchr($url, '/'), 1);
+        $track = substr(strrchr($url, '/'), 1);
+
+        if ($queryString = strrpos($track, '?')) {
+            $track = substr($track, 0, $queryString);
+        }
+
+        return $track;
     }
 
     /**
