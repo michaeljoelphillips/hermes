@@ -26,6 +26,8 @@ services:
         awslogs-region: us-east-1
         awslogs-stream-prefix: tardibot
     environment:
+      - SPOTIFY_CLIENT_ID
+      - SPOTIFY_CLIENT_SECRET
       - GOOGLE_ACCESS_TOKEN
       - SLACK_TOKEN
       - APP_KEY

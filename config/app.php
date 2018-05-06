@@ -164,6 +164,7 @@ return [
         App\Providers\BotMan\ConfigParserProvider::class,
         App\Providers\GoogleProvider::class,
         App\Providers\YoutubeProvider::class,
+        App\Providers\SpotifyProvider::class,
     ],
 
     /*
