@@ -18,10 +18,27 @@ class TrackTest extends TestCase
         $subject = Track::fromUrl('https://google.com');
     }
 
-    public function testGetId()
+    /**
+     * @dataProvider urlProvider
+     */
+    public function testGetId(string $url, string $track)
     {
-        $subject = Track::fromUrl('https://open.spotify.com/track/5GoojLvO6NMf72XGgRyguv');
+        $subject = Track::fromUrl($url);
 
-        $this->assertEquals('5GoojLvO6NMf72XGgRyguv', $subject->getId());
+        $this->assertEquals($track, $subject->getId());
+    }
+
+    public function urlProvider()
+    {
+        return [
+            [
+                'https://open.spotify.com/track/37G9ACbVFCdZvdHVSA3dxz?si=iZxqHIsiR7W_2dK6hUWanQ',
+                '37G9ACbVFCdZvdHVSA3dxz'
+            ],
+            [
+                'https://open.spotify.com/track/5GoojLvO6NMf72XGgRyguv',
+                '5GoojLvO6NMf72XGgRyguv'
+            ]
+        ];
     }
 }
