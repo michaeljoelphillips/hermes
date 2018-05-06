@@ -13,7 +13,7 @@ class ConfigParserProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ConfigParser::class, function ($app) {
-            return new ConfigParser(config('bot.messages'));
+            return new ConfigParser(config('bot.messages'), config('bot.conversations'));
         });
     }
 }
