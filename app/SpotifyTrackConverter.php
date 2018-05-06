@@ -46,6 +46,10 @@ class SpotifyTrackConverter
     /**
      * Build the Youtube Query.
      *
+     * The query is formatted as follows:
+     *
+     *     Artist Track Name
+     *
      * @param object $track
      * @return string
      */
