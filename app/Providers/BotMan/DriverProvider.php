@@ -19,8 +19,8 @@ class DriverProvider extends ServiceProvider
      * @var array
      */
     protected $drivers = [
+        WebDriver::class,
         SlackDriver::class,
-        WebDriver::class
     ];
 
     /**
