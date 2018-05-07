@@ -14,7 +14,7 @@ return [
 ];
 ```
 
-Tardibot can also be configured do perform more advanced tasks with [Conversations](https://botman.io/2.0/conversations):
+Tardibot can also be configured to do more advanced tasks with [Conversations](https://botman.io/2.0/conversations):
 
 ```php
 return [
