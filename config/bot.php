@@ -11,5 +11,9 @@ return [
         'Hi' => 'Hello',
         'Can you hear me\?' => 'Loud and clear!',
         'Test' => 'I\'m working!',
-    ]
+    ],
+
+    'conversations' => [
+        '^https://open.spotify.com/track.*$' => 'App\BotMan\Conversation\SpotifyUrlConversation@convertUrl'
+    ],
 ];
