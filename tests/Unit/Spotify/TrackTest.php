@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use App\Spotify\Track;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class TrackTest extends TestCase
 {

@@ -7,7 +7,7 @@ use Google_Service_YouTube;
 use Google_Client;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class YoutubeProvider extends ServiceProvider
 {

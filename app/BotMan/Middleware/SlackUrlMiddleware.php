@@ -8,7 +8,7 @@ use BotMan\BotMan\Messages\Incoming\IncomingMessage;
 use BotMan\BotMan\BotMan;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class SlackUrlMiddleware implements Received
 {

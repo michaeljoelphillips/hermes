@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Google_Client;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class GoogleProvider extends ServiceProvider
 {

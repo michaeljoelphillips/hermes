@@ -9,7 +9,7 @@ use App\SpotifyTrackConverter;
 use App\Spotify\Track;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class SpotifyTrackConverterTest extends TestCase
 {

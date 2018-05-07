@@ -8,7 +8,7 @@ use App\BotMan\Conversation\OrbsUpdate;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class ConfigParserTest extends TestCase
 {

@@ -8,7 +8,7 @@ use App\Spotify\Track;
 use App\Youtube\Video;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class SpotifyTrackConverter
 {

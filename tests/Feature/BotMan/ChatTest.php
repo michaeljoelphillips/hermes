@@ -5,7 +5,7 @@ namespace Tests\Feature\BotMan;
 use BotMan\Studio\Testing\BotManTester;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class ChatTest extends BotManTester
 {

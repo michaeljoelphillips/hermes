@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use App\Youtube\Video;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class VideoTest extends TestCase
 {

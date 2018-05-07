@@ -9,7 +9,7 @@ use SpotifyWebAPI\SpotifyWebAPI;
 use App\BotMan\Conversation\SpotifyUrlConversation;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class ConversationProvider extends ServiceProvider
 {

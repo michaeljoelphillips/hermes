@@ -7,7 +7,7 @@ use SpotifyWebAPI\SpotifyWebAPI;
 use SpotifyWebAPI\Session;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class SpotifyProvider extends ServiceProvider
 {

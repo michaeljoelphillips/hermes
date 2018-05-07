@@ -3,7 +3,7 @@
 namespace App\Youtube;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class Video
 {

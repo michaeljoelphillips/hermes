@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\BotMan\ConfigParser;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class ConfigParserProvider extends ServiceProvider
 {

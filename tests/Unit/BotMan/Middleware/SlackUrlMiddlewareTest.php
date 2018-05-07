@@ -8,7 +8,7 @@ use App\BotMan\Middleware\SlackUrlMiddleware;
 use BotMan\BotMan\Messages\Incoming\IncomingMessage;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class SlackUrlMiddlewareTest extends TestCase
 {

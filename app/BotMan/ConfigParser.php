@@ -5,7 +5,7 @@ namespace App\BotMan;
 use BotMan\BotMan\BotMan;
 
 /**
- * @author Michael Phillips <michael.phillips@realpage.com>
+ * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class ConfigParser
 {
