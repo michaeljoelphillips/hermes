@@ -15,3 +15,5 @@ Route::post('/', 'BotManController@chat');
 Route::get('/chat', function () {
     return view('chat');
 });
+
+Route::post('twitch/webhook', 'TwitchWebhookController');
