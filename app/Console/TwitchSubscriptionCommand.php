@@ -34,7 +34,7 @@ class TwitchSubscriptionCommand extends Command
             'json' => [
                 'hub.lease_seconds' => 86400,
                 'hub.mode' => 'subscribe',
-                'hub.callback' => 'https://6c4a885a.ngrok.io/botman/twitch/webhook',
+                'hub.callback' => secure_url('/botman/twitch/webhook'),
                 'hub.topic' => "https://api.twitch.tv/helix/streams?user_id=$user",
             ],
         ]);
