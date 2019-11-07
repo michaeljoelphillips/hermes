@@ -9,6 +9,8 @@ use Illuminate\Console\Command;
 
 class TwitchSubscriptionCommand extends Command
 {
+    private const ONE_WEEK = 604800;
+
     protected $signature = 'twitch:stream:subscribe {user}';
     protected $description = 'Subscribe to stream notifications for a user';
 
@@ -32,8 +34,8 @@ class TwitchSubscriptionCommand extends Command
 
         $response = $this->client->request('POST', 'https://api.twitch.tv/helix/webhooks/hub', [
             'json' => [
-                'hub.lease_seconds' => 86400,
                 'hub.mode' => 'subscribe',
+                'hub.lease_seconds' => self::ONE_WEEK,
                 'hub.callback' => secure_url('/botman/twitch/webhook'),
                 'hub.topic' => "https://api.twitch.tv/helix/streams?user_id=$user",
             ],

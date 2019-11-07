@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command(TwitchSubscriptionCommand::class, ['natook'])->weekly();
+        $schedule->command(TwitchSubscriptionCommand::class, ['nomad145'])->weekly();
     }
 
     /**
