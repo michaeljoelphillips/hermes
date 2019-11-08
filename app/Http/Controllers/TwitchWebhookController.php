@@ -8,18 +8,23 @@ use BotMan\BotMan\BotMan;
 use BotMan\Drivers\Slack\SlackDriver;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Psr\Log\LoggerInterface;
 
 class TwitchWebhookController
 {
     private $botman;
+    private $logger;
 
-    public function __construct(BotMan $botman)
+    public function __construct(BotMan $botman, LoggerInterface $logger)
     {
         $this->botman = $botman;
+        $this->logger = $logger;
     }
 
     public function __invoke(Request $request): Response
     {
+        $this->logger->log('info', $request->getContent());
+
         if ($this->userIsLive($request)) {
             $user = $this->getUsernameFromRequest($request);
 
