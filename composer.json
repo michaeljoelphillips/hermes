@@ -4,6 +4,7 @@
     "type": "project",
     "require": {
         "php": "^7.4",
+        "botman/botman": "^2.6",
         "google/apiclient": "^2.2",
         "jwilsson/spotify-web-api-php": "^3.6",
         "symfony/cache": "^5.1"

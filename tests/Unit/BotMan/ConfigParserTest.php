@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Test\Unit\BotMan;
 
 use App\BotMan\ConfigParser;
-use App\BotMan\Conversation\OrbsUpdate;
+use App\BotMan\Conversation\SpotifyUrlConversation;
 use BotMan\BotMan\BotMan;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
@@ -28,9 +28,11 @@ class ConfigParserTest extends TestCase
             ->method('hears')
             ->with(
                 'Hi!',
-                $this->callback(static function ($subject) {
-                    return is_callable($subject);
-                })
+                $this->callback(
+                    static function ($subject) {
+                        return is_callable($subject);
+                    }
+                )
             );
 
         $subject->configure($botman);
@@ -70,7 +72,7 @@ class ConfigParserTest extends TestCase
     {
         $config = [
             'conversations' => [
-                'Orbs' => OrbsUpdate::class . '@run',
+                'Orbs' => SpotifyUrlConversation::class . '@convertUrl',
             ],
         ];
 
@@ -82,7 +84,7 @@ class ConfigParserTest extends TestCase
             ->method('hears')
             ->with(
                 'Orbs',
-                'App\BotMan\Conversation\OrbsUpdate@run'
+                'App\BotMan\Conversation\SpotifyUrlConversation@convertUrl'
             );
 
         $subject->configure($botman);

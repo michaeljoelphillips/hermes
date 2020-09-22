@@ -8,6 +8,7 @@ use BotMan\BotMan\BotMan;
 use UnexpectedValueException;
 
 use function class_exists;
+use function count;
 use function explode;
 use function method_exists;
 use function sprintf;
@@ -18,7 +19,7 @@ class ConfigParser
     protected array $messages;
 
     /** @var array<string, string> */
-    private areray $conversations;
+    private array $conversations;
 
     /**
      * @param array<string, string> $messages
@@ -63,10 +64,12 @@ class ConfigParser
     private function addConversation(string $conversation): string
     {
         if (! $this->isConversationValid($conversation)) {
-            throw new UnexpectedValueException(sprintf(
-                'Unable to parse the given Conversation string: %s',
-                $conversation
-            ));
+            throw new UnexpectedValueException(
+                sprintf(
+                    'Unable to parse the given Conversation string: %s',
+                    $conversation
+                )
+            );
         }
 
         return $conversation;
@@ -82,7 +85,13 @@ class ConfigParser
      */
     private function isConversationValid(string $reply): bool
     {
-        [$class, $method] = explode('@', $reply);
+        $conversationParts = explode('@', $reply);
+
+        if (count($conversationParts) !== 2) {
+            return false;
+        }
+
+        [$class, $method] = $conversationParts;
 
         if ($class === null || $method === null) {
             return false;

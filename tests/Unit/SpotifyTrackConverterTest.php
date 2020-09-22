@@ -9,6 +9,7 @@ use App\SpotifyTrackConverter;
 use Google_Service_YouTube as Youtube;
 use PHPUnit\Framework\TestCase;
 use SpotifyWebAPI\SpotifyWebAPI as Spotify;
+use stdClass;
 
 class SpotifyTrackConverterTest extends TestCase
 {

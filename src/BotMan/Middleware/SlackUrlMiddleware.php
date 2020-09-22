@@ -17,7 +17,7 @@ class SlackUrlMiddleware implements Received
      *
      * @return mixed
      */
-    public function received(IncomingMessage $message, callable $next, BotMan $bot)
+    public function received(IncomingMessage $message, $next, BotMan $bot)
     {
         $messageText  = $message->getText();
         $strippedText = $this->stripFormatting($messageText);
