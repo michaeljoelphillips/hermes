@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Integration;
 
-use Tests\TestCase;
+use App\Spotify\Track;
+use App\SpotifyTrackConverter;
 use Google_Service_YouTube as Youtube;
 use SpotifyWebAPI\SpotifyWebAPI as Spotify;
-use App\SpotifyTrackConverter;
-use App\Spotify\Track;
+use Tests\TestCase;
 
-/**
- * @author Michael Phillips <michaeljoelphillips@gmail.com>
- */
 class SpotifyTrackConverterTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -23,7 +22,7 @@ class SpotifyTrackConverterTest extends TestCase
         $this->subject = new SpotifyTrackConverter($this->youtube, $this->spotify);
     }
 
-    public function testConvert()
+    public function testConvert(): void
     {
         $track = Track::fromUrl('https://open.spotify.com/track/37G9ACbVFCdZvdHVSA3dxz?si=iZxqHIsiR7W_2dK6hUWanQ');
 

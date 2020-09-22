@@ -10,10 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Psr\Log\LoggerInterface;
 
+use function array_pop;
+use function json_decode;
+use function sprintf;
+
 class TwitchWebhookController
 {
-    private $botman;
-    private $logger;
+    private BotMan $botman;
+    private LoggerInterface $logger;
 
     public function __construct(BotMan $botman, LoggerInterface $logger)
     {
@@ -38,7 +42,7 @@ class TwitchWebhookController
     {
         $request = json_decode($request->getContent());
 
-        return false === empty($request->data);
+        return empty($request->data) === false;
     }
 
     private function getUsernameFromRequest(Request $request): string

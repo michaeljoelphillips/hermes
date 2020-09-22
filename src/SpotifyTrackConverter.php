@@ -1,59 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
-use Google_Service_YouTube as Youtube;
-use SpotifyWebAPI\SpotifyWebAPI as Spotify;
 use App\Spotify\Track;
 use App\Youtube\Video;
+use Google_Service_YouTube as Youtube;
+use SpotifyWebAPI\SpotifyWebAPI as Spotify;
 
-/**
- * @author Michael Phillips <michaeljoelphillips@gmail.com>
- */
+use function sprintf;
+
 class SpotifyTrackConverter
 {
-    /** @var Youtube */
-    private $youtube;
+    private Youtube $youtube;
 
-    /** @var Spotify */
-    private $spotify;
+    private Spotify $spotify;
 
-    /**
-     * @param Youtube $youtube
-     * @param Spotify $spotify
-     */
     public function __construct(Youtube $youtube, Spotify $spotify)
     {
         $this->youtube = $youtube;
         $this->spotify = $spotify;
     }
 
-    /**
-     * Convert a Spotify Track to a Youtube Video.
-     *
-     * @param Track
-     * @return Video
-     */
-    public function convert(Track $track) : Video
+    public function convert(Track $track): Video
     {
-        $track = $this->spotify->getTrack($track->getId());
-        $query = $this->buildYoutubeQuery($track);
+        $track   = $this->spotify->getTrack($track->getId());
+        $query   = $this->buildYoutubeQuery($track);
         $results = $this->searchYoutube($query);
 
         return $this->getVideoFromResults($results);
     }
 
-    /**
-     * Build the Youtube Query.
-     *
-     * The query is formatted as follows:
-     *
-     *     Artist Track Name
-     *
-     * @param object $track
-     * @return string
-     */
-    private function buildYoutubeQuery(object $track) : string
+    private function buildYoutubeQuery(object $track): string
     {
         return sprintf(
             '%s %s',
@@ -62,30 +41,18 @@ class SpotifyTrackConverter
         );
     }
 
-    /**
-     * Search Youtube with the $query.
-     *
-     * @param string $query
-     * @return object
-     */
-    private function searchYoutube(string $query) : object
+    private function searchYoutube(string $query): object
     {
         return $this
             ->youtube
             ->search
             ->listSearch('id,snippet', [
                 'q' => $query,
-                'maxResults' => 5
+                'maxResults' => 5,
             ]);
     }
 
-    /**
-     * Dereference the Video ID from the Youtube Results.
-     *
-     * @param object $results
-     * @param Video
-     */
-    private function getVideoFromResults(object $results) : Video
+    private function getVideoFromResults(object $results): Video
     {
         $id = $results->items[0]->id->videoId;
 

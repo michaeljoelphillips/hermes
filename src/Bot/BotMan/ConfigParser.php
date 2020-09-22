@@ -1,35 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BotMan;
 
 use BotMan\BotMan\BotMan;
+use UnexpectedValueException;
 
-/**
- * @author Michael Phillips <michaeljoelphillips@gmail.com>
- */
+use function class_exists;
+use function explode;
+use function method_exists;
+use function sprintf;
+
 class ConfigParser
 {
-    /** @var array */
-    protected $messages;
+    /** @var array<string, string> */
+    protected array $messages;
 
-    /** @var areray */
-    private $conversations;
+    /** @var array<string, string> */
+    private areray $conversations;
 
     /**
-     * @param array
+     * @param array<string, string> $messages
+     * @param array<string, string> $conversations
      */
     public function __construct(array $messages, array $conversations)
     {
-        $this->messages = $messages;
+        $this->messages      = $messages;
         $this->conversations = $conversations;
     }
 
-    /**
-     * Configure the bot.
-     *
-     * @param BotMan $bot
-     */
-    public function configure(BotMan $bot)
+    public function configure(BotMan $bot): void
     {
         foreach ($this->messages as $hears => $reply) {
             $bot->hears($hears, $this->addReply($reply));
@@ -40,14 +41,9 @@ class ConfigParser
         }
     }
 
-    /**
-     * Adds the $reply to the bot.
-     *
-     * @param string $reply
-     */
-    private function addReply(string $reply) : Callable
+    private function addReply(string $reply): callable
     {
-        return function (BotMan $bot) use ($reply) {
+        return static function (BotMan $bot) use ($reply): void {
             $bot->reply($reply);
         };
     }
@@ -60,13 +56,14 @@ class ConfigParser
      *
      *     App\Conversation\MyConversation@handle
      *
-     * @param string $conversation The conversation string.
+     * @param string $conversation The conversation string
+     *
      * @return string $conversation The conversation string.
      */
-    private function addConversation(string $conversation) : string
+    private function addConversation(string $conversation): string
     {
-        if (!$this->isConversationValid($conversation)) {
-            throw new \UnexpectedValueException(sprintf(
+        if (! $this->isConversationValid($conversation)) {
+            throw new UnexpectedValueException(sprintf(
                 'Unable to parse the given Conversation string: %s',
                 $conversation
             ));
@@ -79,25 +76,22 @@ class ConfigParser
      * Check if the given conversation is valid.
      *
      * @param string $reply The conversation string.
+     *
      * @return true If the conversation is formatted correctly and both the
      *              conversation/method exist.
      */
-    private function isConversationValid(string $reply) : bool
+    private function isConversationValid(string $reply): bool
     {
         [$class, $method] = explode('@', $reply);
 
-        if (null == $class || null == $method) {
+        if ($class === null || $method === null) {
             return false;
         }
 
-        if (!class_exists($class, true)) {
+        if (! class_exists($class, true)) {
             return false;
         }
 
-        if (!method_exists($class, $method)) {
-            return false;
-        }
-
-        return true;
+        return method_exists($class, $method);
     }
 }

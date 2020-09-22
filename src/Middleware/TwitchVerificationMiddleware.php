@@ -10,7 +10,10 @@ use Illuminate\Http\Response;
 
 class TwitchVerificationMiddleware
 {
-    public function handle(Request $request, Closure $next, $guard = null)
+    /**
+     * @param mixed $guard
+     */
+    public function handle(Request $request, Closure $next, $guard = null): Response
     {
         if ($request->has('hub_challenge')) {
             return new Response($request->input('hub_challenge'), 200);

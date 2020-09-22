@@ -8,23 +8,18 @@ use BotMan\BotMan\BotMan;
 use BotMan\BotMan\Interfaces\Middleware\Received;
 use BotMan\BotMan\Messages\Incoming\IncomingMessage;
 
-/**
- * @author Michael Phillips <michaeljoelphillips@gmail.com>
- */
+use function preg_replace;
+
 class SlackUrlMiddleware implements Received
 {
     /**
      * Strip the `<` and `>` characters from a URL within a message.
      *
-     * @param IncomingMessage $message
-     * @param callable        $next
-     * @param BotMan          $bot
-     *
      * @return mixed
      */
-    public function received(IncomingMessage $message, $next, BotMan $bot)
+    public function received(IncomingMessage $message, callable $next, BotMan $bot)
     {
-        $messageText = $message->getText();
+        $messageText  = $message->getText();
         $strippedText = $this->stripFormatting($messageText);
 
         $message->setText($strippedText);
@@ -39,7 +34,7 @@ class SlackUrlMiddleware implements Received
      *
      * @return string the stripped text
      */
-    private function stripFormatting($text): string
+    private function stripFormatting(string $text): string
     {
         return preg_replace('/(<)(https.*)(>)/', '${2}', $text);
     }

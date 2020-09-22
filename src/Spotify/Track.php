@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Spotify;
 
-/**
- * @author Michael Phillips <michaeljoelphillips@gmail.com>
- */
+use UnexpectedValueException;
+
+use function strpos;
+use function strrchr;
+use function strrpos;
+use function substr;
+
 class Track
 {
     private const SPOTIFY_URL = 'https://open.spotify.com/track';
@@ -22,7 +28,7 @@ class Track
      *
      * @param string $url The Spotify URL.
      */
-    public static function fromUrl(string $url) : self
+    public static function fromUrl(string $url): self
     {
         self::validateUrl($url);
         $id = self::parseUrl($url);
@@ -33,14 +39,12 @@ class Track
     /**
      * Validate the URL.
      *
-     * @param string $url
      * @throws UnexpectedValueException If $url is not a Spotify Track URL.
-     * @return void
      */
-    private static function validateUrl(string $url) : void
+    private static function validateUrl(string $url): void
     {
         if (strpos($url, self::SPOTIFY_URL) === false) {
-            throw new \UnexpectedValueException('Received an invalid Spotify URL.');
+            throw new UnexpectedValueException('Received an invalid Spotify URL.');
         }
 
         return;
@@ -48,15 +52,13 @@ class Track
 
     /**
      * Retreive the Track ID from the URL.
-     *
-     * @param string $url
-     * @return string
      */
-    private static function parseUrl(string $url) : string
+    private static function parseUrl(string $url): string
     {
-        $track = substr(strrchr($url, '/'), 1);
+        $track       = substr(strrchr($url, '/'), 1);
+        $queryString = strrpos($track, '?');
 
-        if ($queryString = strrpos($track, '?')) {
+        if ($queryString !== false) {
             $track = substr($track, 0, $queryString);
         }
 
@@ -65,10 +67,8 @@ class Track
 
     /**
      * Get the Track ID.
-     *
-     * @return string
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }

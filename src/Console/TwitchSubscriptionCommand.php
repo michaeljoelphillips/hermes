@@ -7,14 +7,19 @@ namespace App\Console;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
+use function array_pop;
+use function json_decode;
+use function sprintf;
+
 class TwitchSubscriptionCommand extends Command
 {
     private const ONE_WEEK = 604800;
 
-    protected $signature = 'twitch:stream:subscribe {user}';
-    protected $description = 'Subscribe to stream notifications for a user';
+    protected string $signature = 'twitch:stream:subscribe {user}';
 
-    private $client;
+    protected string $description = 'Subscribe to stream notifications for a user';
+
+    private Client $client;
 
     public function __construct(Client $client)
     {
@@ -37,14 +42,14 @@ class TwitchSubscriptionCommand extends Command
                 'hub.mode' => 'subscribe',
                 'hub.lease_seconds' => self::ONE_WEEK,
                 'hub.callback' => secure_url('/botman/twitch/webhook'),
-                'hub.topic' => "https://api.twitch.tv/helix/streams?user_id=$user",
+                'hub.topic' => sprintf('https://api.twitch.tv/helix/streams?user_id=%s', $user),
             ],
         ]);
     }
 
     private function getUserIdByName(string $user): string
     {
-        $response = $this->client->get("https://api.twitch.tv/helix/users?login=$user");
+        $response = $this->client->get(sprintf('https://api.twitch.tv/helix/users?login=', $user));
         $response = json_decode((string) $response->getBody());
 
         return array_pop($response->data)->id;

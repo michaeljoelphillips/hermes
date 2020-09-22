@@ -10,7 +10,10 @@ use Illuminate\Http\Response;
 
 class SlackVerificationMiddleware
 {
-    public function handle(Request $request, Closure $next, $guard = null)
+    /**
+     * @param mixed $guard
+     */
+    public function handle(Request $request, Closure $next, $guard = null): Response
     {
         if ($request->has('challenge')) {
             return new Response($request->input('challenge'), 200);
