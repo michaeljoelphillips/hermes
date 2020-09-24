@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+
+$container = require_once __DIR__.'/../bootstrap.php';
+
+$container->get(Application::class)->run();
