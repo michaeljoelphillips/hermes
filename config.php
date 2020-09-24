@@ -24,6 +24,9 @@ return [
                 'slack' => [
                     'token' => getenv('SLACK_TOKEN'),
                 ],
+                'web' => [
+                    'matchingData' => ['driver' => 'web'],
+                ],
             ],
             'messages' => [
                 'Hi' => 'Hello',

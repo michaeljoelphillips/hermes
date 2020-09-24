@@ -6,8 +6,8 @@ namespace App\Controllers;
 
 use BotMan\BotMan\BotMan;
 use BotMan\Drivers\Slack\SlackDriver;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 use function array_pop;
@@ -25,29 +25,27 @@ class TwitchWebhookController
         $this->logger = $logger;
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $this->logger->log('info', $request->getContent());
-
         if ($this->userIsLive($request)) {
             $user = $this->getUsernameFromRequest($request);
 
-            $this->botman->say(sprintf('%s is streaming on Twitch!', $user), '#thegang', SlackDriver::class);
+            $this->botman->say(sprintf('%s is streaming on Twitch!', $user), '#groomsmen', SlackDriver::class);
         }
 
-        return new Response('', 200);
+        return $response->withStatus(200);
     }
 
-    private function userIsLive(Request $request): bool
+    private function userIsLive(ServerRequestInterface $request): bool
     {
-        $request = json_decode($request->getContent());
+        $request = json_decode((string) $request->getBody());
 
         return empty($request->data) === false;
     }
 
-    private function getUsernameFromRequest(Request $request): string
+    private function getUsernameFromRequest(ServerRequestInterface $request): string
     {
-        $request = json_decode($request->getContent());
+        $request = json_decode((string) $request->getBody());
 
         return array_pop($request->data)->user_name;
     }

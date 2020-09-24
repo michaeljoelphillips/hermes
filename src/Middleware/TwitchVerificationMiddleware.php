@@ -4,21 +4,27 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Psr7\Factory\ResponseFactory;
 
-class TwitchVerificationMiddleware
+class TwitchVerificationMiddleware implements MiddlewareInterface
 {
-    /**
-     * @param mixed $guard
-     */
-    public function handle(Request $request, Closure $next, $guard = null): Response
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->has('hub_challenge')) {
-            return new Response($request->input('hub_challenge'), 200);
+        $queryParams = $request->getQueryParams();
+
+        if (isset($queryParams['hub_challenge']) === true) {
+            $response = (new ResponseFactory())->createResponse(200);
+            $body     = $response->getBody();
+
+            $body->write($queryParams['hub_challenge']);
+
+            return $response;
         }
 
-        return $next($request);
+        return $handler->handle($request);
     }
 }

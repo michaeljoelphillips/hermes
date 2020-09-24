@@ -4,21 +4,29 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Psr7\Factory\ResponseFactory;
 
-class SlackVerificationMiddleware
+use function json_decode;
+
+class SlackVerificationMiddleware implements MiddlewareInterface
 {
-    /**
-     * @param mixed $guard
-     */
-    public function handle(Request $request, Closure $next, $guard = null): Response
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->has('challenge')) {
-            return new Response($request->input('challenge'), 200);
+        $requestBody = json_decode((string) $request->getBody(), true);
+
+        if (isset($requestBody['challenge']) === true) {
+            $response     = (new ResponseFactory())->createResponse(200);
+            $responseBody = $response->getBody();
+
+            $responseBody->write($requestBody['challenge']);
+
+            return $response;
         }
 
-        return $next($request);
+        return $handler->handle($request);
     }
 }
