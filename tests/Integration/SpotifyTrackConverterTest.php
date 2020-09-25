@@ -6,9 +6,7 @@ namespace Tests\Integration;
 
 use App\Spotify\Track;
 use App\SpotifyTrackConverter;
-use Google_Service_YouTube as Youtube;
-use SpotifyWebAPI\SpotifyWebAPI as Spotify;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class SpotifyTrackConverterTest extends TestCase
 {
@@ -16,10 +14,9 @@ class SpotifyTrackConverterTest extends TestCase
     {
         parent::setUp();
 
-        $this->youtube = $this->app->make(Youtube::class);
-        $this->spotify = $this->app->make(Spotify::class);
+        $container = require_once __DIR__ . '/../../bootstrap.php';
 
-        $this->subject = new SpotifyTrackConverter($this->youtube, $this->spotify);
+        $this->subject = $container->get(SpotifyTrackConverter::class);
     }
 
     public function testConvert(): void

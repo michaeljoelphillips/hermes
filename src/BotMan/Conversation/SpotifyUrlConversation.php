@@ -7,7 +7,7 @@ namespace App\BotMan\Conversation;
 use App\Spotify\Track;
 use App\SpotifyTrackConverter;
 use BotMan\BotMan\BotMan;
-use UnexpectedValueException;
+use Throwable;
 
 class SpotifyUrlConversation
 {
@@ -32,7 +32,7 @@ class SpotifyUrlConversation
             $video = $this->converter->convert($track);
 
             $bot->reply($video->getUrl());
-        } catch (UnexpectedValueException $e) {
+        } catch (Throwable $t) {
             $bot->reply('I wasn\'t able to parse that URL.  Sorry!');
 
             return;
