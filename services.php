@@ -17,7 +17,6 @@ use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
 use BotMan\BotMan\Drivers\DriverManager;
 use BotMan\Drivers\Slack\SlackDriver;
-use BotMan\Drivers\Web\WebDriver;
 use Google_Service_YouTube as Youtube;
 use GuzzleHttp\Client as Guzzle;
 use Monolog\Handler\NullHandler;
@@ -39,7 +38,6 @@ return [
         $config = $container->get('config')['bot'];
         $parser = new ConfigParser($config['messages'], $config['conversations']);
 
-        DriverManager::loadDriver(WebDriver::class);
         DriverManager::loadDriver(SlackDriver::class);
 
         $botMan = BotManFactory::create($config['drivers']);
