@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 return [
     'config' => [
+        'debug' => false,
         'twitch' => [
             'client' => [
                 'id' => getenv('TWITCH_CLIENT_ID'),

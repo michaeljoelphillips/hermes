@@ -11,6 +11,7 @@
         "jwilsson/spotify-web-api-php": "^3.6",
         "monolog/monolog": "^2.1",
         "php-di/php-di": "^6.2",
+        "php-middleware/log-http-messages": "^4.0",
         "slim/psr7": "^1.2",
         "slim/slim": "^4.5",
         "symfony/cache": "^5.1",

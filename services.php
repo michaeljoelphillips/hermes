@@ -20,7 +20,13 @@ use BotMan\Drivers\Slack\SlackDriver;
 use BotMan\Drivers\Web\WebDriver;
 use Google_Service_YouTube as Youtube;
 use GuzzleHttp\Client as Guzzle;
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use PhpMiddleware\LogHttpMessages\Formatter\ZendDiactorosToArrayMessageFormatter;
+use PhpMiddleware\LogHttpMessages\LogMiddleware;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -100,13 +106,30 @@ return [
         $app->addRoutingMiddleware();
         $app->addBodyParsingMiddleware();
         $app->addErrorMiddleware(true, true, true);
+        $app->add(new TwitchVerificationMiddleware());
+        $app->add(new SlackVerificationMiddleware());
+
+        $logger           = $container->get(LoggerInterface::class);
+        $messageFormatter = new ZendDiactorosToArrayMessageFormatter();
+
+        $app->add(new LogMiddleware(
+            $messageFormatter,
+            $messageFormatter,
+            $logger
+        ));
 
         $app->post('/botman', BotManController::class . ':chat');
         $app->post('/twitch/webhook', TwitchWebhookController::class);
 
-        $app->add(new TwitchVerificationMiddleware());
-        $app->add(new SlackVerificationMiddleware());
-
         return $app;
+    },
+    LoggerInterface::class => static function (ContainerInterface $container): LoggerInterface {
+        $config = $container->get('config');
+
+        $handler = $config['debug'] ?
+            new StreamHandler($config['storage']['path'] . '/hermes.log') :
+            new NullHandler();
+
+        return new Logger('default', [$handler]);
     },
 ];
