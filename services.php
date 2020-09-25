@@ -101,22 +101,16 @@ return [
     },
     App::class => static function (ContainerInterface $container): App {
         AppFactory::setContainer($container);
-        $app = AppFactory::create();
-
-        $app->addRoutingMiddleware();
-        $app->addBodyParsingMiddleware();
-        $app->addErrorMiddleware(true, true, true);
-        $app->add(new TwitchVerificationMiddleware());
-        $app->add(new SlackVerificationMiddleware());
-
+        $app              = AppFactory::create();
         $logger           = $container->get(LoggerInterface::class);
         $messageFormatter = new ZendDiactorosToArrayMessageFormatter();
 
-        $app->add(new LogMiddleware(
-            $messageFormatter,
-            $messageFormatter,
-            $logger
-        ));
+        $app->addRoutingMiddleware();
+        $app->addBodyParsingMiddleware();
+        $app->addErrorMiddleware(true, true, true, $logger);
+        $app->add(new TwitchVerificationMiddleware());
+        $app->add(new SlackVerificationMiddleware());
+        $app->add(new LogMiddleware($messageFormatter, $messageFormatter, $logger));
 
         $app->post('/botman', BotManController::class . ':chat');
         $app->post('/twitch/webhook', TwitchWebhookController::class);
