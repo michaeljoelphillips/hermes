@@ -10,8 +10,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
-use function array_pop;
-use function json_decode;
 use function sprintf;
 
 class TwitchWebhookController
@@ -28,9 +26,26 @@ class TwitchWebhookController
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         if ($this->userIsLive($request)) {
-            $user = $this->getUsernameFromRequest($request);
+            $streamPayload = $request->getParsedBody()['data'][0];
+            $title         = $streamPayload['title'];
+            $user          = $streamPayload['user_name'];
 
-            $this->botman->say(sprintf('%s is streaming on Twitch!', $user), '#groomsmen', SlackDriver::class);
+            $this->botman->say(
+                sprintf(
+                    <<<MESSAGE
+                    %s went live on Twitch!
+
+                    %s
+
+                    https://twitch.tv/%s
+                    MESSAGE,
+                    $user,
+                    $title,
+                    $user
+                ),
+                '#groomsmen',
+                SlackDriver::class
+            );
         }
 
         return $response->withStatus(200);
@@ -38,15 +53,9 @@ class TwitchWebhookController
 
     private function userIsLive(ServerRequestInterface $request): bool
     {
-        $request = json_decode((string) $request->getBody());
+        $streamPayload = $request->getParsedBody()['data'];
 
-        return empty($request->data) === false;
-    }
-
-    private function getUsernameFromRequest(ServerRequestInterface $request): string
-    {
-        $request = json_decode((string) $request->getBody());
-
-        return array_pop($request->data)->user_name;
+        return empty($request->getParsedBody()) === false
+            && $streamPayload[0]['type'] === 'live';
     }
 }
