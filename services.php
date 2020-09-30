@@ -5,11 +5,14 @@ declare(strict_types=1);
 use App\BotMan\ConfigParser;
 use App\BotMan\Conversation\SpotifyUrlConversation;
 use App\BotMan\Middleware\SlackUrlMiddleware;
+use App\Console\SpotifyAuthorizeCommand;
 use App\Console\TwitchSubscriptionCommand;
 use App\Controllers\BotManController;
+use App\Controllers\SpotifyAuthorizeController;
 use App\Controllers\TwitchWebhookController;
 use App\Middleware\SlackVerificationMiddleware;
 use App\Middleware\TwitchVerificationMiddleware;
+use App\Spotify\SessionStorage;
 use App\SpotifyTrackConverter;
 use App\Twitch\Client;
 use App\Twitch\SerializedTokenStorage;
@@ -49,11 +52,15 @@ return [
         return $botMan;
     },
     SpotifyUrlConversation::class => static function (ContainerInterface $container): SpotifyUrlConversation {
+        $youtube = $container->get(Youtube::class);
+        $spotify = $container->get(Spotify::class);
+
         return new SpotifyUrlConversation(
             new SpotifyTrackConverter(
-                $container->get(Youtube::class),
-                $container->get(Spotify::class)
-            )
+                $youtube,
+                $spotify
+            ),
+            $spotify
         );
     },
     Youtube::class => static function (ContainerInterface $container): Youtube {
@@ -64,17 +71,30 @@ return [
 
         return new Youtube($googleClient);
     },
-    Spotify::class => static function (ContainerInterface $container): Spotify {
-        $config  = $container->get('config')['spotify'];
-        $session = new Session($config['client_id'], $config['client_secret']);
+    Session::class => static function (ContainerInterface $container): Session {
+        $config         = $container->get('config');
+        $sessionStorage = new SessionStorage($config['storage']['path']);
+        $storedSession  = $sessionStorage->getSession();
 
-        $session->requestCredentialsToken();
+        if ($storedSession !== null) {
+            return $storedSession;
+        }
+
+        return new Session(
+            $config['spotify']['client_id'],
+            $config['spotify']['client_secret'],
+            $config['spotify']['redirect_uri']
+        );
+    },
+    Spotify::class => static function (ContainerInterface $container): Spotify {
+        $session = $container->get(Session::class);
 
         return new Spotify([], $session);
     },
     Console::class => static function (ContainerInterface $container): Console {
         $console = new Console();
 
+        $console->add($container->get(SpotifyAuthorizeCommand::class));
         $console->add($container->get(TwitchSubscriptionCommand::class));
 
         return $console;
@@ -91,11 +111,19 @@ return [
 
         return new TwitchSubscriptionCommand($client, $config['twitch']['redirect_uri']);
     },
+    SpotifyAuthorizeCommand::class => static function (ContainerInterface $container): SpotifyAuthorizeCommand {
+        return new SpotifyAuthorizeCommand($container->get(Session::class));
+    },
     BotManController::class => static function (ContainerInterface $container): BotManController {
         return new BotManController($container->get(BotMan::class));
     },
     TwitchWebhookController::class => static function (ContainerInterface $container): TwitchWebhookController {
         return new TwitchWebhookController($container->get(BotMan::class), new NullLogger());
+    },
+    SpotifyAuthorizeController::class => static function (ContainerInterface $container): SpotifyAuthorizeController {
+        $config = $container->get('config');
+
+        return new SpotifyAuthorizeController($container->get(Session::class), new SessionStorage($config['storage']['path']));
     },
     App::class => static function (ContainerInterface $container): App {
         AppFactory::setContainer($container);
@@ -112,6 +140,7 @@ return [
 
         $app->post('/botman', BotManController::class . ':chat');
         $app->post('/twitch/webhook', TwitchWebhookController::class);
+        $app->get('/spotify/authorize', SpotifyAuthorizeController::class);
 
         return $app;
     },

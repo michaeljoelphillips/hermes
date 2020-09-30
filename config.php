@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     'config' => [
-        'debug' => false,
+        'debug' => true,
         'twitch' => [
             'client' => [
                 'id' => getenv('TWITCH_CLIENT_ID'),
@@ -19,6 +19,7 @@ return [
         'spotify' => [
             'client_id' => getenv('SPOTIFY_CLIENT_ID'),
             'client_secret' => getenv('SPOTIFY_CLIENT_SECRET'),
+            'redirect_uri' => getenv('SPOTIFY_REDIRECT_URI'),
         ],
         'bot' => [
             'drivers' => [
